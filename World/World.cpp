@@ -17,9 +17,7 @@ TileMap World::buildWorld()
     return map;
 }
 
-std::vector<int> World::loadCSV(
-    unsigned& outWidth,
-    unsigned& outHeight)
+std::vector<int> World::loadCSV(unsigned& outWidth, unsigned& outHeight)
 {
     std::ifstream file("Assets/world.csv");
     if (!file) throw std::runtime_error("Failed to open CSV");
