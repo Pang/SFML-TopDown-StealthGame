@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="TopDownRpg-SFML.vcxproj" Id="4caa1893-8282-4c7f-80f6-4c64339a7b30" />
+</Solution>

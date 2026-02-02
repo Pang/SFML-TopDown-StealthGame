@@ -1,0 +1,81 @@
+# =========================
+# Build artifacts
+# =========================
+build/
+bin/
+out/
+cmake-build-*/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dll
+*.dylib
+*.exe
+
+# =========================
+# CMake
+# =========================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+install_manifest.txt
+
+# =========================
+# SFML runtime files (optional)
+# Uncomment if you copy SFML DLLs locally
+# =========================
+# *.dll
+# *.dylib
+
+# =========================
+# IDE / Editor files
+# =========================
+
+## Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.user
+*.filters
+*.opendb
+*.db
+
+## Visual Studio Code
+.vscode/
+*.code-workspace
+
+## CLion / JetBrains
+.idea/
+*.iml
+
+## Xcode
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs & temp
+# =========================
+*.log
+*.tmp
+*.swp
+*~
+
+# =========================
+# Packaging
+# =========================
+*.zip
+*.tar.gz
+*.7z
