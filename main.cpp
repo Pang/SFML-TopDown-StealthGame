@@ -14,7 +14,7 @@ int main()
     World world;
     Camera camera;
 
-    sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "SFML 3 Tilemap");
+    sf::RenderWindow window(sf::VideoMode(), "Top Down RPG", sf::Style::Default, sf::State::Fullscreen);
     TileMap map = world.buildWorld();
 
     camera.setupCamera(player.getCamPosition());
@@ -28,6 +28,9 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+			window.close();
         }
 
         float dt = clock.restart().asSeconds();

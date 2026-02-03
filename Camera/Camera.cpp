@@ -7,7 +7,6 @@ void Camera::setupCamera(sf::Vector2f camPosition) {
     currentCameraPos = camPosition;
     viewCam.setSize({ 400, 300 });
     viewCam.setCenter(currentCameraPos);
-    viewCam.zoom(0.8f);
 }
 
 void Camera::updateCamera(sf::Vector2f newCamPos, float dt) {
