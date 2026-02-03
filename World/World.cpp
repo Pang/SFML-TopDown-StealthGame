@@ -3,7 +3,11 @@
 
 TileMap World::buildWorld()
 {
-    m_tileset.loadFromFile("Assets/Pixel Art Pack/TX Tileset Grass.png");
+    if (!m_tileset.loadFromFile("Assets/Pixel Art Pack/TX Tileset Grass.png"))
+    {
+        throw std::runtime_error("Couldn't find spritesheet");
+    }
+
     unsigned width, height;
 	std::vector<int> tiles = loadCSV(width, height);
 
