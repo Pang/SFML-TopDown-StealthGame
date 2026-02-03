@@ -28,7 +28,7 @@ Player::Player()
     m_startWorldPos = startPos;
 }
 
-void Player::handleInput()
+void Player::handleInput(int frame)
 {
     if (m_isMoving)
         return;
@@ -37,20 +37,21 @@ void Player::handleInput()
     isFacingLeft = false;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         dir.y = -1;
-        currentPlayerSprite = sf::Vector2i(0, 160);
+        currentPlayerSprite = animatePlayerMovement(frame, 160);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         dir.y = 1;
-        currentPlayerSprite = sf::Vector2i(0, 96);
+        currentPlayerSprite = animatePlayerMovement(frame, 96);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         dir.x = -1;
         isFacingLeft = true;
-        currentPlayerSprite = sf::Vector2i(TILE_SIZE, 128);
+        currentPlayerSprite = animatePlayerMovement(frame, 128);
+        //currentPlayerSprite = sf::Vector2i(TILE_SIZE, 128);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         dir.x = 1;
-        currentPlayerSprite = sf::Vector2i(0, 128);
+        currentPlayerSprite = animatePlayerMovement(frame, 128);
     }
 
     if (dir == sf::Vector2i{ 0, 0 }) {
@@ -62,8 +63,8 @@ void Player::handleInput()
     m_tilePos += dir;
 
     m_targetWorldPos = {
-        m_tilePos.x * TILE_SIZE + TILE_SIZE * .5f - 16,
-        m_tilePos.y * TILE_SIZE + TILE_SIZE * .5f - 16
+        m_tilePos.x * TILE_SIZE + TILE_SIZE * .5f - (TILE_SIZE / 2),
+        m_tilePos.y * TILE_SIZE + TILE_SIZE * .5f - (TILE_SIZE / 2)
     };
 
     m_moveTimer = 0.f;
@@ -102,7 +103,17 @@ void Player::draw(sf::RenderWindow& window) const
     window.draw(playerSprite);
 }
 
-sf::Vector2f Player::getPosition() const
-{
+sf::Vector2f Player::getPosition() const {
     return currentPos;
+}
+sf::Vector2f Player::getCamPosition() const {
+    return { currentPos.x + (TILE_SIZE / 2), currentPos.y + (TILE_SIZE / 2) };
+}
+
+sf::Vector2i Player::animatePlayerMovement(int frame, int row) {
+    frame = (frame + 1) % 4;
+    int col = frame * 32;
+    if (isFacingLeft) col += TILE_SIZE;
+
+    return sf::Vector2i({ col, row});
 }

@@ -6,11 +6,14 @@ class Player
 public:
     Player();
 
-    void handleInput();
+    void handleInput(int frame);
     void update(float dt);
     void draw(sf::RenderWindow& window) const;
-
+    sf::Vector2f getCamPosition() const;
     sf::Vector2f getPosition() const;
+
+private:
+    sf::Vector2i animatePlayerMovement(int frame, int row);
 
 private:
     sf::Vector2f m_velocity;
