@@ -1,24 +1,14 @@
 #include "Player.h"
+#include "PlayerAnimation.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-sf::Vector2f currentPos;
-sf::Vector2i m_tilePos;
-sf::Vector2f m_startWorldPos;
-sf::Vector2f m_worldPos;
-sf::Vector2f m_targetWorldPos;
-
-bool m_isMoving = false;
-float m_moveDuration = 0.25f;
-float m_moveTimer = 0.f;
-
 static constexpr int TILE_SIZE = 32;
-
 
 Player::Player()
 {
 	sf::Vector2f startPos = { 0, 0 };
-    if (!m_playerTexture.loadFromFile("Assets/Snoblin Characters/prototype_character_yellow.png"))
+    if (!m_playerTexture.loadFromFile("Assets/Snoblin Villagers/Human Nobleman/human_nobleman.png"))
     {
         throw std::runtime_error("Couldn't find spritesheet");
     }
@@ -37,34 +27,33 @@ void Player::handleInput(int frame)
     isFacingLeft = false;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         dir.y = -1;
-        currentPlayerSprite = animatePlayerMovement(frame, 160);
+        currentPlayerSprite = animatePlayerMovement(frame, RunUp * TILE_SIZE);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         dir.y = 1;
-        currentPlayerSprite = animatePlayerMovement(frame, 96);
+        currentPlayerSprite = animatePlayerMovement(frame, RunDown * TILE_SIZE);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         dir.x = -1;
         isFacingLeft = true;
-        currentPlayerSprite = animatePlayerMovement(frame, 128);
-        //currentPlayerSprite = sf::Vector2i(TILE_SIZE, 128);
+        currentPlayerSprite = animatePlayerMovement(frame, RunSideways * TILE_SIZE);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         dir.x = 1;
-        currentPlayerSprite = animatePlayerMovement(frame, 128);
+        currentPlayerSprite = animatePlayerMovement(frame, RunSideways * TILE_SIZE);
     }
 
     if (dir == sf::Vector2i{ 0, 0 }) {
-        currentPlayerSprite = sf::Vector2i(0, 0);
+        currentPlayerSprite = sf::Vector2i(0, Idle);
 		return;
     }
 
     m_startWorldPos = m_worldPos;
-    m_tilePos += dir;
+    m_tilePos += static_cast<sf::Vector2f>(dir);
 
     m_targetWorldPos = {
-        m_tilePos.x * TILE_SIZE + TILE_SIZE * .5f - (TILE_SIZE / 2),
-        m_tilePos.y * TILE_SIZE + TILE_SIZE * .5f - (TILE_SIZE / 2)
+        m_tilePos.x * TILE_SIZE * 1.f,
+        m_tilePos.y * TILE_SIZE * 1.f
     };
 
     m_moveTimer = 0.f;

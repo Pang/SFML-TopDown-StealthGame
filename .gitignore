@@ -2,7 +2,7 @@
 # Build artifacts
 # =========================
 build/
-AssetsA/
+Assets/
 bin/
 out/
 cmake-build-*/
