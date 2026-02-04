@@ -5,10 +5,11 @@ static constexpr int TILE_SIZE = 16;
 
 void World::loadTileMaps() {
     //loadSpecificMap(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/world.csv");
-    loadSpecificMap(m_dungeonTileMap, m_dungeonTileset, "Assets/Snoblin Dungeon/Tiles/walls_dungeon.png", "Assets/walls.csv");
+    std::vector<int> tiles = loadSpecificMap(m_dungeonTileMap, m_dungeonTileset, "Assets/Snoblin Dungeon/Tiles/walls_dungeon.png", "Assets/walls.csv");
+    SetBorderCollisionTiles(tiles);
 }
 
-void World::loadSpecificMap(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
+std::vector<int> World::loadSpecificMap(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
     if (!texture.loadFromFile(textureFile)) throw std::runtime_error("Couldn't find spritesheet");
 
     unsigned width, height;
@@ -18,11 +19,25 @@ void World::loadSpecificMap(TileMap& tileMap, sf::Texture& texture, const std::s
 
     if (!tileMap.load(texture, { TILE_SIZE, TILE_SIZE }, tiles, width, height))
         throw std::runtime_error("Failed to load tilemap");
+
+    return tiles;
 }
 
 void World::renderTileMaps(sf::RenderWindow& window) {
     //window.draw(m_floorsTileMap);
     window.draw(m_dungeonTileMap);
+}
+
+void World::SetBorderCollisionTiles(std::vector<int> tiles) {
+    unsigned width, height;
+    std::vector<int> tilesA = loadCSV(width, height, "Assets/collisions.csv");
+    if (tilesA.size() != width * height)
+        throw std::runtime_error("Tiles count does not match map dimensions");
+
+    m_collisionMap.resize(tilesA.size());
+    for (unsigned i = 0; i < tilesA.size(); i++) {
+        if (tilesA[i] == 1) m_collisionMap[i] = true;
+    }
 }
 
 std::vector<int> World::loadCSV(unsigned& outWidth, unsigned& outHeight, const std::string& fileName)

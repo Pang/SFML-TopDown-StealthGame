@@ -40,7 +40,7 @@ int main()
             timeAccumulator -= frameDuration;
         }
 
-        player.handleInput(frame);
+        player.handleInput(frame, world.getCollisionMap());
         player.update(dt);
 
 		camera.updateCamera(player.getCamPosition(), dt);

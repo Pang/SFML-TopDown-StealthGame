@@ -6,7 +6,7 @@ class Player
 public:
     Player();
 
-    void handleInput(int frame);
+    void handleInput(int frame, std::vector<bool> collisionMap);
     void update(float dt);
     void draw(sf::RenderWindow& window) const;
     sf::Vector2f getCamPosition() const;

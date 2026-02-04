@@ -2,6 +2,7 @@
 #include "PlayerAnimation.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <iostream>
 
 static constexpr int TILE_SIZE = 32;
 
@@ -20,7 +21,7 @@ Player::Player()
     m_startWorldPos = startPos;
 }
 
-void Player::handleInput(int frame)
+void Player::handleInput(int frame, std::vector<bool> collisionMap)
 {
     if (m_isMoving)
         return;
@@ -50,8 +51,14 @@ void Player::handleInput(int frame)
 		return;
     }
 
+    sf::Vector2f tilePos = m_tilePos + static_cast<sf::Vector2f>(dir);
+
+    if (collisionMap[tilePos.x + tilePos.y * 9]) return;
+
     m_startWorldPos = m_worldPos;
     m_tilePos += static_cast<sf::Vector2f>(dir);
+
+    std::cout << m_tilePos.x << ", " << m_tilePos.y << "\n";
 
     m_targetWorldPos = {
         m_tilePos.x * TILE_SIZE * .5f,
