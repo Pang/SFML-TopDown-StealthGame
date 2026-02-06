@@ -13,7 +13,12 @@ Npc::Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile)
 	m_endTile = endTile;
 	m_npcPos = tileToPixel(startTile);
 
-	m_state = NpcState::MovingToEndOfPath;
+	if (startTile == endTile) {
+		m_state = NpcState::Waiting;
+	}
+	else {
+		m_state = NpcState::MovingToEndOfPath;
+	}
 
 	switch (npcType)
 	{
@@ -36,6 +41,27 @@ Npc::Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile)
 	}
 }
 
+void Npc::faceDirection(NpcState state) {
+	switch (state) {
+		case NpcState::LookUp:
+			m_currentNpcSprite = sf::Vector2i(0, RunUp * TILE_SIZE);
+			break;
+		case NpcState::LookDown:
+			m_currentNpcSprite = sf::Vector2i(0, RunDown * TILE_SIZE);
+			break;
+		case NpcState::LookLeft:
+			m_currentNpcSprite = sf::Vector2i(TILE_SIZE, RunSideways * TILE_SIZE);
+			m_isFacingLeft = true;
+			break;
+		case NpcState::LookRight:
+			m_currentNpcSprite = sf::Vector2i(0, RunSideways * TILE_SIZE);
+			m_isFacingLeft = false;
+			break;
+		default:
+			break;
+	}
+}
+
 void Npc::update(float dt, int frame)
 {
 	switch (m_state)
@@ -49,7 +75,9 @@ void Npc::update(float dt, int frame)
 			moveTowardsTarget(dt, frame, m_startTile);
 			break;
 		case NpcState::Waiting:
-			wait(dt);
+			if (m_startTile != m_endTile) {
+				wait(dt);
+			}
 			break;
 		default:
 			break;
@@ -78,9 +106,17 @@ void Npc::moveTowardsTarget(float dt, int frame, sf::Vector2i& targetTile)
 	float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 
 	if (direction.x < 0) m_isFacingLeft = true;
-	else if (direction.x > 0) m_isFacingLeft = false;
+	else m_isFacingLeft = false;
 
-	m_currentNpcSprite = animateNpcMovement(frame, RunSideways * TILE_SIZE);
+	if (direction.y > 0) {
+		m_currentNpcSprite = animateNpcMovement(frame, RunDown * TILE_SIZE);
+	}
+	else if (direction.y < 0) {
+		m_currentNpcSprite = animateNpcMovement(frame, RunUp * TILE_SIZE);
+	}
+	else {
+		m_currentNpcSprite = animateNpcMovement(frame, RunSideways * TILE_SIZE);
+	}
 
 	if (distance < 1.f) {
 		m_npcPos = targetPos;

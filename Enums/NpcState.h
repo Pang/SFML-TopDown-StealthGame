@@ -4,5 +4,9 @@ enum NpcState
 {
 	MovingToEndOfPath,
 	MovingToStartOfPath,
-	Waiting
+	Waiting,
+	LookUp,
+	LookDown,
+	LookLeft,
+	LookRight
 };

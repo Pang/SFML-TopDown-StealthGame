@@ -11,6 +11,7 @@ public:
 
 	void update(float dt, int frame);
 	void draw(sf::RenderWindow& window);
+	void faceDirection(NpcState state);
 
 private:
 	sf::Vector2f tileToPixel(sf::Vector2i tile);
