@@ -4,10 +4,12 @@
 static constexpr int TILE_SIZE = 16;
 
 void World::loadTileMaps() {
-    loadSpecificMap(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/floor.csv");
+    m_roomWidth = 11;
     std::vector<int> wallTilesVec = loadSpecificMap(m_wallsTileMap, m_wallsTileset, "Assets/Snoblin Dungeon/Tiles/walls_dungeon.png", "Assets/walls.csv");
-    loadSpecificMap(m_doorTileMap, m_doorTileset, "Assets/Snoblin Dungeon/Tiles/animated_doors.png", "Assets/door.csv");
     SetBorderCollisionTiles(wallTilesVec);
+
+    loadSpecificMap(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/floor.csv");
+    loadSpecificMap(m_doorTileMap, m_doorTileset, "Assets/Snoblin Dungeon/Tiles/animated_doors.png", "Assets/door.csv");
 }
 
 std::vector<int> World::loadSpecificMap(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
@@ -43,8 +45,12 @@ void World::renderTileMaps(sf::RenderWindow& window, DrawLayer layer) {
 
 void World::SetBorderCollisionTiles(std::vector<int>& tiles) {
     m_collisionMap.resize(tiles.size());
+    m_worldEntities.resize(tiles.size());
     for (unsigned i = 0; i < tiles.size(); i++) {
-        if (tiles[i] != -1) m_collisionMap[i] = true;
+        if (tiles[i] != -1) {
+            m_collisionMap[i] = true;
+			m_worldEntities[i] = WE_WALL;
+        }
     }
 }
 
@@ -81,3 +87,4 @@ std::vector<int> World::loadCSV(unsigned& outWidth, unsigned& outHeight, const s
 
     return tiles;
 }
+

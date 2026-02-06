@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "TopDownRpg-SFML\\x64\\Debug\\NpcViewDirection.h.obj",
+            "outputs": [
+                "C:\\Users\\RyanB\\source\\repos\\TopDownRpg-SFML\\TopDownRpg-SFML\\x64\\Debug\\vc145.pdb",
+                "TopDownRpg-SFML\\x64\\Debug\\",
+                "C:\\Users\\RyanB\\source\\repos\\TopDownRpg-SFML\\TopDownRpg-SFML\\x64\\Debug\\NpcViewDirection.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "Enums\\NpcViewDirection.h",
+                    "source-path": "c:\\users\\ryanb\\source\\repos\\topdownrpg-sfml\\enums\\npcviewdirection.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

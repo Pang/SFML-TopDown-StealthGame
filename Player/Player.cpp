@@ -31,20 +31,20 @@ void Player::handleInput(int frame, std::vector<bool> collisionMap)
     m_isFacingLeft = false;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         dir.y = -1;
-        m_currentPlayerSprite = animatePlayerMovement(frame, RunUp * TILE_SIZE);
+        m_currentPlayerSprite = Helper::animateMovement(frame, RunUp * TILE_SIZE, m_isFacingLeft);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         dir.y = 1;
-        m_currentPlayerSprite = animatePlayerMovement(frame, RunDown * TILE_SIZE);
+        m_currentPlayerSprite = Helper::animateMovement(frame, RunDown * TILE_SIZE, m_isFacingLeft);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         dir.x = -1;
         m_isFacingLeft = true;
-        m_currentPlayerSprite = animatePlayerMovement(frame, RunSideways * TILE_SIZE);
+        m_currentPlayerSprite = Helper::animateMovement(frame, RunSideways * TILE_SIZE, m_isFacingLeft);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         dir.x = 1;
-        m_currentPlayerSprite = animatePlayerMovement(frame, RunSideways * TILE_SIZE);
+        m_currentPlayerSprite = Helper::animateMovement(frame, RunSideways * TILE_SIZE, m_isFacingLeft);
     }
 
     if (dir == sf::Vector2i{ 0, 0 }) {
@@ -52,6 +52,7 @@ void Player::handleInput(int frame, std::vector<bool> collisionMap)
 		return;
     }
 
+	m_previousTile = m_tilePos;
     sf::Vector2f tilePos = m_tilePos + static_cast<sf::Vector2f>(dir);
     if (collisionMap[tilePos.x + tilePos.y * TILE_ROW_LENGTH]) return;
 
@@ -69,7 +70,7 @@ void Player::handleInput(int frame, std::vector<bool> collisionMap)
     m_isMoving = true;
 }
 
-void Player::update(float dt)
+void Player::update(float dt, std::vector<WorldEntities>& worldEntities)
 {
     if (!m_isMoving)
         return;
@@ -86,6 +87,12 @@ void Player::update(float dt)
         m_worldPos = m_targetWorldPos;
         m_isMoving = false;
     }
+
+    int prevIndex = Helper::tileToIndex({ static_cast<int>(m_previousTile.x), static_cast<int>(m_previousTile.y) });
+    int newIndex = Helper::tileToIndex({ static_cast<int>(m_tilePos.x), static_cast<int>(m_tilePos.y) });
+
+    worldEntities[prevIndex] = WE_NONE;
+    worldEntities[newIndex] = WE_PLAYER;
 }
 
 void Player::draw(sf::RenderWindow& window) const
@@ -107,12 +114,4 @@ sf::Vector2f Player::getPosition() const {
 }
 sf::Vector2f Player::getCamPosition() const {
     return { m_currentPos.x + (TILE_SIZE / 4), m_currentPos.y + (TILE_SIZE / 4) };
-}
-
-sf::Vector2i Player::animatePlayerMovement(int frame, int row) {
-    frame = (frame + 1) % 4;
-    int col = frame * 32;
-    if (m_isFacingLeft) col += TILE_SIZE;
-
-    return sf::Vector2i({ col, row});
 }

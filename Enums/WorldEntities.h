@@ -1,3 +1,5 @@
+#pragma once
+
 enum WorldEntities {
 	WE_NONE = 0,
 	WE_WALL = 1,

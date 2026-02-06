@@ -1,23 +1,25 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../Helpers/Helper.h"
 #include "../Enums/NpcType.h"
 #include "../Enums/NpcState.h"
 #include "../Enums/Animation.h"
+#include "../Enums/WorldEntities.h"
+#include "../Enums/NpcViewDirection.h"
 
 class Npc
 {
 public:
 	Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile);
 
-	void update(float dt, int frame);
+	void update(float dt, int frame, std::vector<WorldEntities>& worldEntities);
 	void draw(sf::RenderWindow& window);
 	void faceDirection(NpcState state);
-
 private:
-	sf::Vector2f tileToPixel(sf::Vector2i tile);
 	void moveTowardsTarget(float dt, int frame, sf::Vector2i& targetTile);
 	void wait(float dt);
-	sf::Vector2i animateNpcMovement(int frame, int row);
+
+	void checkPlayerInView(std::vector<WorldEntities>& worldEntities);
 
 private:
 	sf::Vector2i m_currentNpcSprite;
@@ -36,5 +38,12 @@ private:
 	float npcSpeed = 25.f;
 	float npcWaitTime = 3.f;
 	float npcWaitingFor = 3.f;
-};
 
+	NpcViewDirection m_viewDirection;
+	int viewDistanceTiles = 3;
+
+	sf::Vector2i DIR_UP = { 0, -1 };
+	sf::Vector2i DIR_DOWN = { 0,  1 };
+	sf::Vector2i DIR_LEFT = { -1, 0 };
+	sf::Vector2i DIR_RIGHT = { 1, 0 };
+};

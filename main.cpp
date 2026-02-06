@@ -19,6 +19,7 @@ int main()
     Npc goblin(NpcType::Goblin, { 3, 3 }, { 7, 3 });
     Npc goblin2(NpcType::Goblin, { 5, 4 }, { 5, 7 });
     Npc goblin3(NpcType::Goblin, { 4, 7 }, { 4, 7 });
+    goblin3.faceDirection(LookLeft);
 
     sf::RenderWindow window(sf::VideoMode({1300, 800}), "Top Down RPG", sf::Style::Default, sf::State::Windowed);
     world.loadTileMaps();
@@ -49,11 +50,10 @@ int main()
 
         player.handleInput(frame, world.getCollisionMap());
 
-        player.update(dt);
-        goblin.update(dt, frame);
-        goblin2.update(dt, frame);
-        //goblin3.update(dt, frame);
-        goblin3.faceDirection(LookLeft);
+        player.update(dt, world.m_worldEntities);
+        goblin.update(dt, frame, world.m_worldEntities);
+        goblin2.update(dt, frame, world.m_worldEntities);
+        goblin3.update(dt, frame, world.m_worldEntities);
         
 		camera.updateCamera(player.getCamPosition(), dt);
         window.setView(camera.viewCam);

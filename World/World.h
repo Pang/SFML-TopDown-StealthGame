@@ -12,7 +12,7 @@ public:
 	std::vector<bool> getCollisionMap() const { return m_collisionMap; }
 
 public:
-	WorldEntities worldEntities;
+	std::vector<WorldEntities> m_worldEntities;
 
 private:
 	std::vector<int> loadCSV(unsigned& outWidth, unsigned& outHeight, const std::string& fileName);
@@ -27,6 +27,7 @@ private:
 	TileMap m_wallsTileMap;
 	TileMap m_doorTileMap;
 
+	unsigned m_roomWidth;
+
 	std::vector<bool> m_collisionMap;
 };
-

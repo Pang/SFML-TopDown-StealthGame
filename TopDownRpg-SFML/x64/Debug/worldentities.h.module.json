@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "TopDownRpg-SFML\\x64\\Debug\\WorldEntities.h.obj",
+            "outputs": [
+                "C:\\Users\\RyanB\\source\\repos\\TopDownRpg-SFML\\TopDownRpg-SFML\\x64\\Debug\\vc145.pdb",
+                "TopDownRpg-SFML\\x64\\Debug\\",
+                "C:\\Users\\RyanB\\source\\repos\\TopDownRpg-SFML\\TopDownRpg-SFML\\x64\\Debug\\WorldEntities.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "Enums\\WorldEntities.h",
+                    "source-path": "c:\\users\\ryanb\\source\\repos\\topdownrpg-sfml\\enums\\worldentities.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}
