@@ -8,18 +8,17 @@ const std::string skeletonPath = "Assets/Snoblin Skeletons/Skeleton/skeleton";
 constexpr int TILE_SIZE = 32;
 constexpr int TILE_ROW_LENGTH = 11;
 
+Npc::Npc()
+{
+}
+
 Npc::Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile)
 {
 	m_startTile = startTile;
 	m_endTile = endTile;
 	m_npcPos = Helper::tileToPixel(startTile);
 
-	if (startTile == endTile) {
-		m_state = NpcState::Waiting;
-	}
-	else {
-		m_state = NpcState::MovingToEndOfPath;
-	}
+	m_state = startTile == endTile ? NpcState::Waiting : NpcState::MovingToEndOfPath;
 
 	switch (npcType)
 	{

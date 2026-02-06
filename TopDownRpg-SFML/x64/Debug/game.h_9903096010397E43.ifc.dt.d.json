@@ -1,0 +1,12 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\ryanb\\source\\repos\\topdownrpg-sfml\\game\\game.h",
+        "ProvidedModule": "",
+        "Includes": [
+            "c:\\users\\ryanb\\source\\repos\\topdownrpg-sfml\\enums\\gamestate.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

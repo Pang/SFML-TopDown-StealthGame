@@ -15,11 +15,9 @@ int main()
     Player player;
     World world;
     Camera camera;
+    Game game;
 
-    Npc goblin(NpcType::Goblin, { 3, 3 }, { 7, 3 });
-    Npc goblin2(NpcType::Goblin, { 5, 4 }, { 5, 7 });
-    Npc goblin3(NpcType::Goblin, { 4, 7 }, { 4, 7 });
-    goblin3.faceDirection(LookLeft);
+	game.setupLevel();
 
     sf::RenderWindow window(sf::VideoMode({1300, 800}), "Top Down RPG", sf::Style::Default, sf::State::Windowed);
     world.loadTileMaps();
@@ -51,9 +49,7 @@ int main()
         player.handleInput(frame, world.getCollisionMap());
 
         player.update(dt, world.m_worldEntities);
-        goblin.update(dt, frame, world.m_worldEntities);
-        goblin2.update(dt, frame, world.m_worldEntities);
-        goblin3.update(dt, frame, world.m_worldEntities);
+		game.runLevel(dt, frame, world.m_worldEntities);
         
 		camera.updateCamera(player.getCamPosition(), dt);
         window.setView(camera.viewCam);
@@ -64,9 +60,7 @@ int main()
         world.renderTileMaps(window, Objects);
 
         player.draw(window);
-        goblin.draw(window);
-        goblin2.draw(window);
-        goblin3.draw(window);
+		game.render(window);
 
         window.display();
     }

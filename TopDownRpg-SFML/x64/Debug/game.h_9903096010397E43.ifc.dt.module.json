@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "TopDownRpg-SFML\\x64\\Debug\\game.obj",
+            "outputs": [
+                "TopDownRpg-SFML\\x64\\Debug\\game.h_9903096010397E43.ifc.dt.module.json",
+                "TopDownRpg-SFML\\x64\\Debug\\game.h_9903096010397E43.ifc.dt.d.json",
+                "TopDownRpg-SFML\\x64\\Debug\\game.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\RyanB\\source\\repos\\TopDownRpg-SFML\\Game\\game.h",
+                    "source-path": "c:\\users\\ryanb\\source\\repos\\topdownrpg-sfml\\game\\game.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

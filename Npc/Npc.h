@@ -10,6 +10,7 @@
 class Npc
 {
 public:
+	Npc();
 	Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile);
 
 	void update(float dt, int frame, std::vector<WorldEntities>& worldEntities);
@@ -40,7 +41,7 @@ private:
 	float npcWaitingFor = 3.f;
 
 	NpcViewDirection m_viewDirection;
-	int viewDistanceTiles = 3;
+	int viewDistanceTiles = 4;
 
 	sf::Vector2i DIR_UP = { 0, -1 };
 	sf::Vector2i DIR_DOWN = { 0,  1 };
