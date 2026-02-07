@@ -9,23 +9,27 @@ static constexpr int TILE_ROW_LENGTH = 11;
 
 Player::Player()
 {
-    m_tilePos = { 2, 10 };
-    sf::Vector2f startPos = { m_tilePos.x * TILE_SIZE * .5f, m_tilePos.y * TILE_SIZE * .5f };
+    resetPlayer();
+
     if (!m_playerTexture.loadFromFile("Assets/Snoblin Villagers/Human Nobleman/human_nobleman.png"))
     {
         throw std::runtime_error("Couldn't find spritesheet");
     }
+}
 
+void Player::resetPlayer() {
+    m_tilePos = { 2, 10 };
+    sf::Vector2f startPos = { m_tilePos.x * TILE_SIZE * .5f, m_tilePos.y * TILE_SIZE * .5f };
     m_isFacingLeft = false;
     m_currentPos = startPos;
     m_worldPos = startPos;
     m_startWorldPos = startPos;
+	m_targetWorldPos = startPos;
 }
 
 void Player::handleInput(int frame, std::vector<bool> collisionMap)
 {
-    if (m_isMoving)
-        return;
+    if (m_isMoving) return;
 
     sf::Vector2i dir{ 0, 0 };
     m_isFacingLeft = false;

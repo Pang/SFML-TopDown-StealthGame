@@ -9,6 +9,7 @@ class Player
 public:
     Player();
 
+    void resetPlayer();
     void handleInput(int frame, std::vector<bool> collisionMap);
     void update(float dt, std::vector<WorldEntities>& worldEntities);
     void draw(sf::RenderWindow& window) const;

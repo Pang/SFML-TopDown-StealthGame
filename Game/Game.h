@@ -2,9 +2,11 @@
 #include "../Enums/GameState.h"
 #include "../Enums/GameLevel.h"
 #include "../Enums/NpcType.h"
+#include "../Helpers/Button.h"
 #include "../Player/Player.h"
 #include "../World/World.h"
 #include "../Npc/Npc.h"
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 class Game {
@@ -30,4 +32,6 @@ private:
 	std::vector<Npc> m_npcs;
 
 	bool playerCaught = false;
+
+	Button resetButton = Button({ 200.f, 40.f }, { 10.f, 10.f });
 };

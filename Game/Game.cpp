@@ -1,5 +1,6 @@
 #include "game.h"
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 Game::Game(sf::RenderWindow& window, Player& player, World& world) 
 	: font("Assets/Fonts/pixantiqua.ttf"), overlayText(font), m_player(player), m_world(world)
@@ -19,13 +20,22 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 
 void Game::setupLevel()
 {
+	playerCaught = false;
+	for (size_t i = 0; i < m_world.m_worldEntities.size(); ++i) {
+		if (m_world.m_worldEntities[i] == WE_PLAYER) {
+			m_world.m_worldEntities[i] = WE_NONE;
+		}
+	}
+
 	m_npcs.clear();
+	m_player.resetPlayer();
 
 	switch (m_gameLevel)
 	{
 		case GL_None:
 			break;
 		case GL_One:
+			m_world.loadTileMaps();
 			m_npcs.resize(3);
 			m_npcs[0] = Npc(NpcType::Goblin, { 3, 3 }, { 7, 3 });
 			m_npcs[1] = Npc(NpcType::Goblin, { 5, 4 }, { 5, 7 });
@@ -37,6 +47,7 @@ void Game::setupLevel()
 					playerCaught = true;
 				});
 			}
+			m_gameState = GS_Playing;
 			break;
 		case GL_Two:
 			break;
@@ -79,8 +90,6 @@ void Game::runLevel(float dt, int frame)
 
 void Game::render(sf::RenderWindow& window)
 {
-
-
 	switch (m_gameState)
 	{
 	case GS_MainMenu:
@@ -98,15 +107,33 @@ void Game::render(sf::RenderWindow& window)
 	case GS_LevelComplete:
 		window.setView(window.getDefaultView());
 		setOverlayText("Level complete!");
+		resetButton.setText("Reset level");
+
 		window.draw(overlay);
 		window.draw(overlayText);
+		resetButton.draw(window);
+		resetButton.update(window);
+
+		if (resetButton.isClicked()) {
+			std::cout << "Resetting level...\n";
+			setupLevel();
+		}
 		break;
 	case GS_GameOver:
-		m_player.draw(window);
 		window.setView(window.getDefaultView());
 		setOverlayText("You got caught!");
+		resetButton.setText("Reset level");
+
 		window.draw(overlay);
 		window.draw(overlayText);
+		resetButton.draw(window);
+		resetButton.update(window);
+
+		if (resetButton.isClicked()) {
+			std::cout << "Resetting level...\n";
+			setupLevel();
+		}
+
 		break;
 	}
 }
