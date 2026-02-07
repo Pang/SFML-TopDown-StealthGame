@@ -6,8 +6,8 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 	: font("Assets/Fonts/pixantiqua.ttf"), overlayText(font), m_player(player), m_world(world)
 {
 	world.loadTileMaps();
-	m_gameState = GS_Playing;
-	m_gameLevel = GL_One;
+	m_gameState = GS_MainMenu;
+	m_gameLevel = GL_None;
 
 	m_player.onExitReached.subscribe([this]() {
 		std::cout << "Exit reached! Game over.\n";
@@ -16,6 +16,18 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 
 	overlay.setFillColor(sf::Color(0, 0, 0, 150));
 	overlay.setSize(sf::Vector2f(window.getSize()));
+
+	backgroundTexture.loadFromFile("Assets/bg2.png");
+	backgroundSprite = sf::Sprite(backgroundTexture);
+	sf::Vector2u windowSize = window.getSize();
+	sf::Vector2u textureSize = backgroundTexture.getSize();
+
+	backgroundSprite.setScale({
+		static_cast<float>(windowSize.x) / textureSize.x,
+		static_cast<float>(windowSize.y) / textureSize.y
+		});
+	startGameButton.setText("Start Game");
+	exitGameButton.setText("Exit");
 }
 
 void Game::setupLevel()
@@ -93,6 +105,22 @@ void Game::render(sf::RenderWindow& window)
 	switch (m_gameState)
 	{
 	case GS_MainMenu:
+		window.setView(window.getDefaultView());
+		window.draw(backgroundSprite);
+
+		startGameButton.draw(window);
+		exitGameButton.draw(window);
+		startGameButton.update(window);
+		exitGameButton.update(window);
+
+		if (startGameButton.isClicked()) {
+			m_gameLevel = GL_One;
+			setupLevel();
+			m_gameState = GS_Playing;
+		}
+		if (exitGameButton.isClicked()) {
+			window.close();
+		}
 		break;
 	case GS_Playing:
 		m_world.renderTileMaps(window, Floor);

@@ -20,6 +20,8 @@ private:
 	void setOverlayText(const std::string& text);
 
 private:
+	sf::Texture backgroundTexture;
+	sf::Sprite backgroundSprite = sf::Sprite(backgroundTexture);
 	sf::RectangleShape overlay;
 	sf::Font font;
 	sf::Text overlayText;
@@ -33,5 +35,7 @@ private:
 
 	bool playerCaught = false;
 
+	Button startGameButton = Button({ 200.f, 40.f }, { 550.f, 50.f });
+	Button exitGameButton = Button({ 200.f, 40.f }, { 550.f, 115.f });
 	Button resetButton = Button({ 200.f, 40.f }, { 10.f, 10.f });
 };
