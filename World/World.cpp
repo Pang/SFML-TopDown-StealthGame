@@ -5,20 +5,40 @@ static constexpr int TILE_SIZE = 16;
 
 void World::loadTileMaps() {
     m_roomWidth = 11;
-    std::vector<int> wallTilesVec = loadSpecificMap(m_wallsTileMap, m_wallsTileset, "Assets/Snoblin Dungeon/Tiles/walls_dungeon.png", "Assets/walls.csv");
+    std::vector<int> wallTilesVec = loadMapWithCSV(m_wallsTileMap, m_wallsTileset, "Assets/Snoblin Dungeon/Tiles/walls_dungeon.png", "Assets/CSVs/walls.csv");
     SetBorderCollisionTiles(wallTilesVec);
 
-    loadSpecificMap(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/floor.csv");
+    loadMapWithCSV(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/CSVs/floor.csv");
+    loadDoorObjects();
+}
 
-    std::vector<int> doorTilesVec = loadSpecificMap(m_doorTileMap, m_doorTileset, "Assets/Snoblin Dungeon/Tiles/animated_doors.png", "Assets/door.csv");
+void World::loadDoorObjects() {
+    std::vector<int> doorTilesVec = loadMapWithCSV(m_doorTileMap, m_doorTileset, "Assets/Snoblin Dungeon/Tiles/animated_doors.png", "Assets/CSVs/door.csv");
     std::vector<int> indices;
     Helper::getAllNonEmptyTileIndices(doorTilesVec, indices);
     for (int index : indices) {
         m_worldEntities[index] = WE_EXIT_DOOR;
-	}
+    }
 }
 
-std::vector<int> World::loadSpecificMap(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
+void World::loadLevelObjects(std::string level) {
+    std::string levelCsv = "Assets/CSVs/Level" + level + "Objects.csv";
+    std::vector<int> objTilesVec = loadMapWithCSV(m_objectTileMap, m_objTileset, "Assets/Snoblin Default Tilemap/Objects/chosen_objects.png", levelCsv);
+
+    std::vector<int> indices;
+    Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
+    for (int index : indices) {
+        if (objTilesVec[index] != -1) {
+            m_collisionMap[index] = true;
+            m_worldEntities[index] = WE_OBJECT;
+			if (objTilesVec[index] == WO_Chest_Closed) {
+				chest_index = index;
+            }
+        }
+    }
+}
+
+std::vector<int> World::loadMapWithCSV(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
     if (!texture.loadFromFile(textureFile)) throw std::runtime_error("Couldn't find spritesheet");
 
     unsigned width, height;
@@ -42,6 +62,7 @@ void World::renderTileMaps(sf::RenderWindow& window, DrawLayer layer) {
             window.draw(m_wallsTileMap);
             break;
         case Objects:
+            window.draw(m_objectTileMap);
             window.draw(m_doorTileMap);
             break;
         default:

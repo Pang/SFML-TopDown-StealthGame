@@ -46,6 +46,7 @@ void Game::setupLevel()
 		case GL_None:
 			break;
 		case GL_One:
+			m_world.loadLevelObjects("1");
 			m_npcs.resize(3);
 			m_npcs[0] = Npc(NpcType::Goblin, { 3, 3 }, { 7, 3 });
 			m_npcs[1] = Npc(NpcType::Goblin, { 5, 4 }, { 5, 7 });

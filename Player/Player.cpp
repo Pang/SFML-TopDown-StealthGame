@@ -58,7 +58,8 @@ void Player::handleInput(int frame, std::vector<bool> collisionMap)
 
 	m_previousTile = m_tilePos;
     sf::Vector2f tilePos = m_tilePos + static_cast<sf::Vector2f>(dir);
-    if (collisionMap[tilePos.x + tilePos.y * TILE_ROW_LENGTH]) return;
+	int index = tilePos.x + tilePos.y * TILE_ROW_LENGTH;
+    if (collisionMap[index]) return;
 
     m_startWorldPos = m_worldPos;
     m_tilePos += static_cast<sf::Vector2f>(dir);

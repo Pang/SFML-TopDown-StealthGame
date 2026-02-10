@@ -18,6 +18,7 @@ public:
 
 public:
     Event onExitReached;
+    Event onKeyFound;
 
 private:
     sf::Vector2f m_velocity;
