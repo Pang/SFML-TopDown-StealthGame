@@ -96,6 +96,9 @@ void Player::update(float dt, std::vector<WorldEntities>& worldEntities)
 
     worldEntities[prevIndex] = WE_NONE;
 
+	if (worldEntities[newIndex] == WE_CHEST) {
+        onKeyFound.invoke();
+    }
     if (worldEntities[newIndex] == WE_EXIT_DOOR) {
         onExitReached.invoke();
     }

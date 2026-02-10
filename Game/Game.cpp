@@ -9,6 +9,11 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 	m_gameState = GS_MainMenu;
 	m_gameLevel = GL_None;
 
+	m_player.onKeyFound.subscribe([this]() {
+		std::cout << "Key found!\n";
+		m_world.handleOnKeyFound();
+	});
+
 	m_player.onExitReached.subscribe([this]() {
 		std::cout << "Exit reached! Game over.\n";
 		m_gameState = GS_LevelComplete;

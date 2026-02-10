@@ -1,4 +1,5 @@
 ﻿#include "TileMap.h"
+#include <SFML/Graphics/RenderStates.hpp>
 
 bool TileMap::load(
     const sf::Texture& tileset,

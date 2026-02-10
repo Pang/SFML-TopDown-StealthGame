@@ -9,22 +9,12 @@ void World::loadTileMaps() {
     SetBorderCollisionTiles(wallTilesVec);
 
     loadMapWithCSV(m_floorsTileMap, m_floorTileset, "Assets/Snoblin Dungeon/Tiles/ground_dungeon.png", "Assets/CSVs/floor.csv");
-    loadDoorObjects();
 }
 
-void World::loadDoorObjects() {
-    std::vector<int> doorTilesVec = loadMapWithCSV(m_doorTileMap, m_doorTileset, "Assets/Snoblin Dungeon/Tiles/animated_doors.png", "Assets/CSVs/door.csv");
-    std::vector<int> indices;
-    Helper::getAllNonEmptyTileIndices(doorTilesVec, indices);
-    for (int index : indices) {
-        m_worldEntities[index] = WE_EXIT_DOOR;
-    }
-}
 
 void World::loadLevelObjects(std::string level) {
     std::string levelCsv = "Assets/CSVs/Level" + level + "Objects.csv";
-    std::vector<int> objTilesVec = loadMapWithCSV(m_objectTileMap, m_objTileset, "Assets/Snoblin Default Tilemap/Objects/chosen_objects.png", levelCsv);
-
+    objTilesVec = loadMapWithCSV(m_objectTileMap, m_objTileset, "Assets/Snoblin Default Tilemap/Objects/chosen_objects.png", levelCsv);
     std::vector<int> indices;
     Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
     for (int index : indices) {
@@ -32,10 +22,29 @@ void World::loadLevelObjects(std::string level) {
             m_collisionMap[index] = true;
             m_worldEntities[index] = WE_OBJECT;
 			if (objTilesVec[index] == WO_Chest_Closed) {
-				chest_index = index;
+                m_worldEntities[index] = WE_CHEST;
+                m_collisionMap[index] = false;
             }
+            else if (objTilesVec[index] == WO_Door_Closed) {
+                m_worldEntities[index] = WE_EXIT_DOOR;
+            }
+         }
+    }
+}
+void World::handleOnKeyFound() {
+    std::vector<int> indices;
+    Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
+    for (int index : indices) {
+        if (objTilesVec[index] == WO_Door_Closed) {
+            m_collisionMap[index] = false;
+            objTilesVec[index] = WO_Door_Open;
+        }
+		if (objTilesVec[index] == WO_Chest_Closed) {
+            objTilesVec[index] = WO_Chest_Open;
         }
     }
+
+	m_objectTileMap.load(m_objTileset, { TILE_SIZE, TILE_SIZE }, objTilesVec, m_roomWidth, objTilesVec.size() / m_roomWidth);
 }
 
 std::vector<int> World::loadMapWithCSV(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
@@ -63,7 +72,6 @@ void World::renderTileMaps(sf::RenderWindow& window, DrawLayer layer) {
             break;
         case Objects:
             window.draw(m_objectTileMap);
-            window.draw(m_doorTileMap);
             break;
         default:
             break;
