@@ -2,8 +2,19 @@
 #include <iostream>
 
 const std::string ghostPath = "Assets/Snoblin Ghosts/Ghost/ghost.png";
-const std::string goblinPath = "Assets/Snoblin Goblin Clan/Goblin Rogue/goblin_rogue.png";
-const std::string skeletonPath = "Assets/Snoblin Skeletons/Skeleton/skeleton";
+const std::string skeletonPath = "Assets/Snoblin Skeletons/Skeleton/skeleton.png";
+const std::string skeletonWarriorPath = "Assets/Snoblin Skeletons/Skeleton Warrior/skeleton_warrior.png";
+
+const std::string knightHeavyPath = "Assets/Snoblin Knights/Heavy Knight/heavy_knight2.png";
+const std::string knightPikemanPath = "Assets/Snoblin Knights/Pikeman/pikeman.png";
+
+const std::string goblinPath = "Assets/Snoblin Goblin Clan/Goblin Villager/goblin_villager.png";
+const std::string goblinRoguePath = "Assets/Snoblin Goblin Clan/Goblin Rogue/goblin_rogue.png";
+const std::string goblinBarbarianPath = "Assets/Snoblin Goblin Clan/Goblin Barbarian/goblin_barbarian.png";
+
+const std::string darkElfVillagerPath = "Assets/Snoblin Dark Elves/Dark Elf Villager 1/dark_elf_villager_1.png";
+const std::string darkElfWarriorPath = "Assets/Snoblin Dark Elves/Dark Elf Warrior/dark_elf_warrior2.png";
+
 
 constexpr int TILE_SIZE = 32;
 constexpr int TILE_ROW_LENGTH = 11;
@@ -20,25 +31,21 @@ Npc::Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile)
 
 	m_state = startTile == endTile ? NpcState::Waiting : NpcState::MovingToEndOfPath;
 
-	switch (npcType)
-	{
-	case NpcType::Ghost:
-		if (!m_npcTexture.loadFromFile(ghostPath)) 
-			throw std::runtime_error("Couldn't find spritesheet");
-		break;
-	case NpcType::Goblin:
-		if (!m_npcTexture.loadFromFile(goblinPath)) 
-			throw std::runtime_error("Couldn't find spritesheet");
-		break;
-	case NpcType::Skeleton:
-		if (!m_npcTexture.loadFromFile(skeletonPath)) 
-			throw std::runtime_error("Couldn't find spritesheet");
-		break;
-	default:
-		if (!m_npcTexture.loadFromFile(ghostPath)) 
-			throw std::runtime_error("Couldn't find spritesheet");
-		break;
-	}
+	if (!m_npcTexture.loadFromFile(getPath(npcType)))
+		throw std::runtime_error("Couldn't find spritesheet");
+}
+
+std::string Npc::getPath(NpcType type) {
+	if (type == NpcType::Goblin) return goblinPath;
+	else if (type == NpcType::GoblinRogue) return goblinRoguePath;
+	else if (type == NpcType::GoblinBarbarian) return goblinBarbarianPath;
+	else if (type == NpcType::Skeleton) return skeletonPath;
+	else if (type == NpcType::SkeletonWarrior) return skeletonWarriorPath;
+	else if (type == NpcType::Ghost) return ghostPath;
+	else if (type == NpcType::HeavyKnight) return knightHeavyPath;
+	else if (type == NpcType::Pikeman) return knightPikemanPath;
+	else if (type == NpcType::DarkElfVillager) return darkElfVillagerPath;
+	else if (type == NpcType::DarkElfWarrior) return darkElfWarriorPath;
 }
 
 void Npc::faceDirection(NpcState state) {

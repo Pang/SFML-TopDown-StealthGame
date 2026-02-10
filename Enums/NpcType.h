@@ -3,6 +3,13 @@
 enum NpcType
 {
 	Ghost,
+	Skeleton,
+	SkeletonWarrior,
+	HeavyKnight,
+	Pikeman,
 	Goblin,
-	Skeleton
+	GoblinRogue,
+	GoblinBarbarian,
+	DarkElfVillager,
+	DarkElfWarrior,
 };

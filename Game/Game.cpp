@@ -53,8 +53,8 @@ void Game::setupLevel()
 		case GL_One:
 			m_world.loadLevelObjects("1");
 			m_npcs.resize(3);
-			m_npcs[0] = Npc(NpcType::Goblin, { 3, 3 }, { 7, 3 });
-			m_npcs[1] = Npc(NpcType::Goblin, { 5, 4 }, { 5, 7 });
+			m_npcs[0] = Npc(NpcType::GoblinRogue, { 3, 3 }, { 7, 3 });
+			m_npcs[1] = Npc(NpcType::GoblinBarbarian, { 5, 4 }, { 5, 7 });
 			m_npcs[2] = Npc(NpcType::Goblin, { 4, 7 }, { 4, 7 });
 			m_npcs[2].faceDirection(LookLeft);
 

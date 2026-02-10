@@ -7,12 +7,15 @@
 #include "../Enums/WorldEntities.h"
 #include "../Enums/NpcViewDirection.h"
 #include "../Helpers/Event.h"
+#include <string>
 
 class Npc
 {
 public:
 	Npc();
 	Npc(NpcType npcType, sf::Vector2i startTile, sf::Vector2i endTile);
+
+	std::string getPath(NpcType type);
 
 	void update(float dt, int frame, std::vector<WorldEntities>& worldEntities);
 	void draw(sf::RenderWindow& window);
