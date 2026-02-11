@@ -18,6 +18,7 @@ public:
 
 private:
 	void setOverlayText(const std::string& text);
+	void clearLevels();
 
 private:
 	sf::Texture backgroundTexture;

@@ -33,8 +33,7 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 		});
 }
 
-void Game::setupLevel()
-{
+void Game::clearLevels() {
 	playerCaught = false;
 	for (size_t i = 0; i < m_world.m_worldEntities.size(); ++i) {
 		if (m_world.m_worldEntities[i] == WE_PLAYER) {
@@ -45,6 +44,11 @@ void Game::setupLevel()
 	m_npcs.clear();
 	m_world.loadTileMaps();
 	m_world.clearMapObjects();
+}
+
+void Game::setupLevel()
+{
+	clearLevels();
 	switch (m_gameLevel)
 	{
 		case GL_None:
@@ -118,8 +122,25 @@ void Game::setupLevel()
 			}
 			m_gameState = GS_Playing;
 			break;
-			break;
 		case GL_Five:
+			m_player.resetPlayer({ 1, 10 });
+			m_world.loadLevelObjects("5");
+			m_npcs.resize(6);
+			m_npcs[0] = Npc(NpcType::DarkElfWarrior, { 7, 9 }, { 3, 9 });
+			m_npcs[1] = Npc(NpcType::DarkElfWarrior, { 9, 9 }, { 9, 4 });
+			m_npcs[2] = Npc(NpcType::DarkElfVillager, { 8, 10 }, { 8, 10 });
+			m_npcs[2].faceDirection(LookLeft);
+			m_npcs[3] = Npc(NpcType::DarkElfWarrior, { 5, 8 }, { 5, 5 });
+			m_npcs[4] = Npc(NpcType::DarkElfWarrior, { 1, 3 }, { 3, 3 });
+			m_npcs[5] = Npc(NpcType::DarkElfWarrior, { 6, 4 }, { 7, 4 });
+
+
+			for (Npc& npc : m_npcs) {
+				npc.onPlayerFound.subscribe([this]() {
+					playerCaught = true;
+					});
+			}
+			m_gameState = GS_Playing;
 			break;
 	}
 }
@@ -203,9 +224,18 @@ void Game::render(sf::RenderWindow& window)
 
 		if (nextLevelButton.isClicked()) {
 			int currentLevel = (int)m_gameLevel;
-			m_gameLevel = (GameLevel)++currentLevel;
-			setupLevel();
-			m_gameState = GS_Playing;
+
+			if (currentLevel >= 5) {
+				clearLevels();
+				m_gameLevel = GL_None;
+				m_gameState = GS_MainMenu;
+			}
+			else
+			{
+				m_gameLevel = (GameLevel)++currentLevel;
+				setupLevel();
+				m_gameState = GS_Playing;
+			}
 		}
 		break;
 	case GS_GameOver:

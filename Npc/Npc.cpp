@@ -137,9 +137,8 @@ void Npc::spottedPlayer(std::vector<WorldEntities>& worldEntities, sf::Vector2i 
 			if (currentRow != tileViewingRow) break;
 		}
 
-		if (worldEntities[index] == WE_OBJECT) {
-			break;
-		}
+		if (worldEntities[index] == WE_OBJECT) break;
+
 		if (worldEntities[index] == WE_PLAYER) {
 			std::cout << "Player spotted right!\n";
 			std::cout << "NPC at tile: " << npcClosestTile.x << ", " << npcClosestTile.y << " looking in direction: " << m_viewDirection << "\n";

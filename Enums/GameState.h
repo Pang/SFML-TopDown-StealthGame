@@ -6,5 +6,5 @@ enum GameState
 	GS_Playing,
 	GS_PauseMenu,
 	GS_LevelComplete,
-	GS_GameOver
+	GS_GameOver,
 };
