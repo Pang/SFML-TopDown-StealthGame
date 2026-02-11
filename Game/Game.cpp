@@ -107,7 +107,7 @@ void Game::setupLevel()
 			m_npcs.resize(4);
 			m_npcs[0] = Npc(NpcType::SkeletonWarrior, { 3, 5 }, { 3, 10 });
 			m_npcs[1] = Npc(NpcType::SkeletonWarrior, { 5, 7 }, { 5, 10 });
-			m_npcs[2] = Npc(NpcType::SkeletonWarrior, { 8, 7 }, { 8, 7 });
+			m_npcs[2] = Npc(NpcType::Skeleton, { 8, 7 }, { 8, 7 });
 			m_npcs[2].faceDirection(LookDown);
 			m_npcs[3] = Npc(NpcType::SkeletonWarrior, { 9, 5 }, { 5, 5 });
 

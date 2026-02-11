@@ -123,6 +123,7 @@ void Npc::spottedPlayer(std::vector<WorldEntities>& worldEntities, sf::Vector2i 
 	int index = Helper::tileToIndex(npcClosestTile);
 
 	for (int v = 0; v < viewDistanceTiles; v++) {
+		if (!NpcState::Waiting) v++;
 
 		int currentRow = index / 11;
 		index = Helper::tileToIndex(npcClosestTile + dir * v);
