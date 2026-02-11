@@ -84,6 +84,22 @@ void Game::setupLevel()
 			m_gameState = GS_Playing;
 			break;
 		case GL_Three:
+			m_player.resetPlayer({ 5, 10 });
+			m_world.loadLevelObjects("3");
+			m_npcs.resize(6);
+			m_npcs[0] = Npc(NpcType::Ghost, { 2, 3 }, { 6, 3 });
+			m_npcs[1] = Npc(NpcType::Ghost, { 6, 4 }, { 3, 4 });
+			m_npcs[2] = Npc(NpcType::Ghost, { 5, 5 }, { 8, 5 });
+			m_npcs[3] = Npc(NpcType::Ghost, { 1, 6 }, { 4, 6 });
+			m_npcs[4] = Npc(NpcType::Ghost, { 7, 8 }, { 3, 8 });
+			m_npcs[5] = Npc(NpcType::Ghost, { 3, 9 }, { 6, 9 });
+
+			for (Npc& npc : m_npcs) {
+				npc.onPlayerFound.subscribe([this]() {
+					playerCaught = true;
+					});
+			}
+			m_gameState = GS_Playing;
 			break;
 		case GL_Four:
 			break;
@@ -134,7 +150,7 @@ void Game::render(sf::RenderWindow& window)
 		exitGameButton.update(window);
 
 		if (startGameButton.isClicked()) {
-			m_gameLevel = GL_Two;
+			m_gameLevel = GL_Three;
 			setupLevel();
 			m_gameState = GS_Playing;
 		}

@@ -47,6 +47,10 @@ void World::handleOnKeyFound() {
 	m_objectTileMap.load(m_objTileset, { TILE_SIZE, TILE_SIZE }, objTilesVec, m_roomWidth, objTilesVec.size() / m_roomWidth);
 }
 
+void World::clearMapObjects() {
+    
+}
+
 std::vector<int> World::loadMapWithCSV(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile) {
     if (!texture.loadFromFile(textureFile)) throw std::runtime_error("Couldn't find spritesheet");
 

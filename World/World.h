@@ -14,6 +14,8 @@ public:
 	void loadLevelObjects(std::string level);
 	void handleOnKeyFound();
 
+	void clearMapObjects();
+
 private:
 	std::vector<int> loadCSV(unsigned& outWidth, unsigned& outHeight, const std::string& fileName);
 	std::vector<int> loadMapWithCSV(TileMap& tileMap, sf::Texture& texture, const std::string& textureFile, const std::string& csvFile);
