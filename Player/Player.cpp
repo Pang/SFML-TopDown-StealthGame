@@ -9,12 +9,8 @@ static constexpr int TILE_ROW_LENGTH = 11;
 
 Player::Player()
 {
-    //resetPlayer({ 2, 10 });
-
-    if (!m_playerTexture.loadFromFile("Assets/Snoblin Villagers/Human Nobleman/human_nobleman.png"))
-    {
+    if (!m_playerTexture.loadFromFile("Assets/Snoblin Villagers/Human Thief/human_thief.png"))
         throw std::runtime_error("Couldn't find spritesheet");
-    }
 }
 
 void Player::resetPlayer(sf::Vector2f startingPosition) {
