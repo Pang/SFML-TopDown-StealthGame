@@ -32,6 +32,11 @@ public:
 	Event onPlayerFound;
 
 private:
+	const sf::Vector2i DIR_UP = { 0, -1 };
+	const sf::Vector2i DIR_DOWN = { 0,  1 };
+	const sf::Vector2i DIR_LEFT = { -1, 0 };
+	const sf::Vector2i DIR_RIGHT = { 1, 0 };
+
 	sf::Vector2i m_currentNpcSprite;
 	sf::Texture m_npcTexture;
 	NpcType m_type;
@@ -45,15 +50,11 @@ private:
 	sf::Vector2f m_npcPos;
 
 	bool m_isFacingLeft = false;
-	float npcSpeed = 25.f;
-	float npcWaitTime = 3.f;
-	float npcWaitingFor = 3.f;
+	float m_npcSpeed = 25.f;
+	float m_npcWaitTime = 3.f;
+	float m_npcWaitingFor = 3.f;
 
 	NpcViewDirection m_viewDirection;
-	int viewDistanceTiles = 4;
+	int m_viewDistanceTiles = 4;
 
-	sf::Vector2i DIR_UP = { 0, -1 };
-	sf::Vector2i DIR_DOWN = { 0,  1 };
-	sf::Vector2i DIR_LEFT = { -1, 0 };
-	sf::Vector2i DIR_RIGHT = { 1, 0 };
 };

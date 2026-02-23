@@ -34,10 +34,10 @@ Game::Game(sf::RenderWindow& window, Player& player, World& world)
 }
 
 void Game::clearLevels() {
-	playerCaught = false;
-	for (size_t i = 0; i < m_world.m_worldEntities.size(); ++i) {
-		if (m_world.m_worldEntities[i] == WE_PLAYER) {
-			m_world.m_worldEntities[i] = WE_NONE;
+	m_playerCaught = false;
+	for (size_t i = 0; i < m_world.worldEntities.size(); ++i) {
+		if (m_world.worldEntities[i] == WE_PLAYER) {
+			m_world.worldEntities[i] = WE_NONE;
 		}
 	}
 
@@ -64,7 +64,7 @@ void Game::setupLevel()
 
 			for (Npc& npc : m_npcs) {
 				npc.onPlayerFound.subscribe([this]() {
-					playerCaught = true;
+					m_playerCaught = true;
 				});
 			}
 			m_gameState = GS_Playing;
@@ -82,7 +82,7 @@ void Game::setupLevel()
 
 			for (Npc& npc : m_npcs) {
 				npc.onPlayerFound.subscribe([this]() {
-					playerCaught = true;
+					m_playerCaught = true;
 					});
 			}
 			m_gameState = GS_Playing;
@@ -100,7 +100,7 @@ void Game::setupLevel()
 
 			for (Npc& npc : m_npcs) {
 				npc.onPlayerFound.subscribe([this]() {
-					playerCaught = true;
+					m_playerCaught = true;
 					});
 			}
 			m_gameState = GS_Playing;
@@ -117,7 +117,7 @@ void Game::setupLevel()
 
 			for (Npc& npc : m_npcs) {
 				npc.onPlayerFound.subscribe([this]() {
-					playerCaught = true;
+					m_playerCaught = true;
 					});
 			}
 			m_gameState = GS_Playing;
@@ -137,7 +137,7 @@ void Game::setupLevel()
 
 			for (Npc& npc : m_npcs) {
 				npc.onPlayerFound.subscribe([this]() {
-					playerCaught = true;
+					m_playerCaught = true;
 					});
 			}
 			m_gameState = GS_Playing;
@@ -153,12 +153,12 @@ void Game::runLevel(float dt, int frame)
 			break;
 		case GS_Playing:
 			m_player.handleInput(frame, m_world.getCollisionMap());
-			m_player.update(dt, m_world.m_worldEntities);
+			m_player.update(dt, m_world.worldEntities);
 			for (Npc& npc : m_npcs) {
-				npc.update(dt, frame, m_world.m_worldEntities);
+				npc.update(dt, frame, m_world.worldEntities);
 			}
 
-			if (playerCaught) {
+			if (m_playerCaught) {
 				std::cout << "Player caught! Game over.\n";
 				m_gameState = GS_GameOver;
 				for (Npc& npc : m_npcs)

@@ -14,42 +14,42 @@ void World::loadTileMaps() {
 
 void World::loadLevelObjects(std::string level) {
     std::string levelCsv = "Assets/CSVs/Level" + level + "Objects.csv";
-    objTilesVec = loadMapWithCSV(m_objectTileMap, m_objTileset, "Assets/Snoblin Default Tilemap/Objects/chosen_objects.png", levelCsv);
+    m_objTilesVec = loadMapWithCSV(m_objectTileMap, m_objTileset, "Assets/Snoblin Default Tilemap/Objects/chosen_objects.png", levelCsv);
     std::vector<int> indices;
-    Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
+    Helper::getAllNonEmptyTileIndices(m_objTilesVec, indices);
     for (int index : indices) {
-        if (objTilesVec[index] != -1) {
+        if (m_objTilesVec[index] != -1) {
             m_collisionMap[index] = true;
-            m_worldEntities[index] = WE_OBJECT;
-			if (objTilesVec[index] == WO_Chest_Closed) {
-                m_worldEntities[index] = WE_CHEST;
+            worldEntities[index] = WE_OBJECT;
+			if (m_objTilesVec[index] == WO_Chest_Closed) {
+                worldEntities[index] = WE_CHEST;
                 m_collisionMap[index] = false;
             }
-            else if (objTilesVec[index] == WO_Door_Closed) {
-                m_worldEntities[index] = WE_EXIT_DOOR;
+            else if (m_objTilesVec[index] == WO_Door_Closed) {
+                worldEntities[index] = WE_EXIT_DOOR;
             }
          }
     }
 }
 void World::handleOnKeyFound() {
     std::vector<int> indices;
-    Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
+    Helper::getAllNonEmptyTileIndices(m_objTilesVec, indices);
     for (int index : indices) {
-        if (objTilesVec[index] == WO_Door_Closed) {
+        if (m_objTilesVec[index] == WO_Door_Closed) {
             m_collisionMap[index] = false;
-            objTilesVec[index] = WO_Door_Open;
+            m_objTilesVec[index] = WO_Door_Open;
         }
-		if (objTilesVec[index] == WO_Chest_Closed) {
-            objTilesVec[index] = WO_Chest_Open;
+		if (m_objTilesVec[index] == WO_Chest_Closed) {
+            m_objTilesVec[index] = WO_Chest_Open;
         }
     }
 
-	m_objectTileMap.load(m_objTileset, { TILE_SIZE, TILE_SIZE }, objTilesVec, m_roomWidth, objTilesVec.size() / m_roomWidth);
+	m_objectTileMap.load(m_objTileset, { TILE_SIZE, TILE_SIZE }, m_objTilesVec, m_roomWidth, m_objTilesVec.size() / m_roomWidth);
 }
 
 void World::clearMapObjects() {
     std::vector<int> indices;
-    Helper::getAllNonEmptyTileIndices(objTilesVec, indices);
+    Helper::getAllNonEmptyTileIndices(m_objTilesVec, indices);
     for (int index : indices) {
         m_collisionMap[index] = false;
     }
@@ -89,11 +89,11 @@ void World::renderTileMaps(sf::RenderWindow& window, DrawLayer layer) {
 
 void World::setBorderCollisionTiles(std::vector<int>& tiles) {
     m_collisionMap.resize(tiles.size());
-    m_worldEntities.resize(tiles.size());
+    worldEntities.resize(tiles.size());
     for (unsigned i = 0; i < tiles.size(); i++) {
         if (tiles[i] != -1) {
             m_collisionMap[i] = true;
-			m_worldEntities[i] = WE_WALL;
+			worldEntities[i] = WE_WALL;
         }
     }
 }

@@ -22,7 +22,7 @@ private:
 	void setBorderCollisionTiles(std::vector<int>& tiles);
 
 public:
-	std::vector<WorldEntities> m_worldEntities;
+	std::vector<WorldEntities> worldEntities;
 
 private:
 	sf::Texture m_floorTileset;
@@ -35,5 +35,5 @@ private:
 	unsigned m_roomWidth;
 
 	std::vector<bool> m_collisionMap;
-	std::vector<int> objTilesVec;
+	std::vector<int> m_objTilesVec;
 };

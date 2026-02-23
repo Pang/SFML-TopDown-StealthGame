@@ -123,7 +123,7 @@ void Npc::spottedPlayer(std::vector<WorldEntities>& worldEntities, sf::Vector2i 
 	int index = Helper::tileToIndex(npcClosestTile);
 
 	bool skippedTile = false;
-	for (int v = 0; v < viewDistanceTiles; v++) {
+	for (int v = 0; v < m_viewDistanceTiles; v++) {
 		if (!skippedTile && m_state != NpcState::Waiting) {
 			skippedTile = true;
 			continue;
@@ -194,14 +194,14 @@ void Npc::moveTowardsTarget(float dt, int frame, sf::Vector2i& targetTile)
 	}
 
 	direction /= distance;
-	m_npcPos += direction * npcSpeed * dt;
+	m_npcPos += direction * m_npcSpeed * dt;
 }
 
 void Npc::wait(float dt)
 {
-	npcWaitingFor -= dt;
-	if (npcWaitingFor <= 0.f) {
-		npcWaitingFor = npcWaitTime;
+	m_npcWaitingFor -= dt;
+	if (m_npcWaitingFor <= 0.f) {
+		m_npcWaitingFor = m_npcWaitTime;
 		m_state = (m_state == NpcState::Waiting && m_npcTile == m_endTile) ? NpcState::MovingToStartOfPath : NpcState::MovingToEndOfPath;
 	}
 }

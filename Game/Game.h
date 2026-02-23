@@ -34,7 +34,7 @@ private:
 	World& m_world;
 	std::vector<Npc> m_npcs;
 
-	bool playerCaught = false;
+	bool m_playerCaught = false;
 
 	Button startGameButton = Button({ 200.f, 40.f }, { 550.f, 50.f }, "Start Game");
 	Button exitGameButton = Button({ 200.f, 40.f }, { 550.f, 115.f }, "Exit");
